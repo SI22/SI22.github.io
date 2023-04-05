@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+    <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <link rel="stylesheet" href="C:\Users\syu20\OneDrive\デスクトップ\新しいフォルダー (4)\代数学演習.css">
+	<title>n次対称群Snがアーベル群でないことの証明</title>
+	<style>
+        .container {
+			display: flex;
+			flex-direction: row;
+			width: 100%;
+			height: 100%;
+		}
+
+		.menu2 {
+			display: inline-block;
+			background: #fcfcff;
+			padding: 15px;
+			border: 1px solid #3b5998;
+			border-radius: 10px;
+			word-break: break-all;
+			width: 25%; /* メニューの幅を設定 */
+		}
+
+		.page2 {
+			display: inline-block;
+			padding: 15px;
+			width: 75%; /* ページの幅を設定 */
+		}
+		/* 選択肢のスタイル */
+		.menu { 
+            /* スクロールバーのスタイルを設定 */
+			white-space: nowrap;
+			overflow-x: auto;
+			overflow-y: hidden;
+			-webkit-overflow-scrolling: touch;
+			-ms-overflow-style: -ms-autohiding-scrollbar;
+			scrollbar-width: thin;
+			scrollbar-color: gray lightgray;
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		.menu li {
+			font-size: 1.2rem;
+			margin: 0 1rem;
+			padding: 0.5rem 1rem;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+		}
+
+		/* カーソルを当てた時のスタイル */
+		.menu li:hover {
+			background-color: #eee;
+			box-shadow: 0 0 5px #ccc;
+		}
+
+		/* 選択された時のスタイル */
+		.menu li.active {
+			background-color: #007bff;
+			color: #fff;
+		}
+
+		/* ページのスタイル */
+		.page {
+			display: none;
+			padding: 1rem;
+			margin-top: 2rem;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+
+		.page.active {
+			display: block;
+		}
+		body {
+			background-color: #F1EFE7;
+			background-image: linear-gradient(to bottom, #F1EFE7, #C6D8C7);
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+			text-align: center;
+		}
+		.frame {
+			background-color: #FFFFFF;
+			border-radius: 10px;
+			box-shadow: 0 0 10px rgba(0,0,0,0.2);
+			margin: 50px auto;
+			max-width: 800px;
+			padding: 30px;
+			text-align: left;
+		}
+		h1 {
+			color: #3B3B3B;
+			font-size: 36px;
+			font-weight: bold;
+			margin: 0 0 30px 0;
+			text-transform: uppercase;
+		}
+		p {
+			color: #444444;
+			font-size: 20px;
+			line-height: 1.6;
+			margin: 20px 0;
+		}
+		hr {
+			background-color: #E6E6E6;
+			border: none;
+			height: 1px;
+			margin: 30px 0;
+		}
+		.note {
+			background-color: #F5F5F5;
+			border-radius: 5px;
+			box-shadow: 0 0 5px rgba(0,0,0,0.1);
+			color: #666666;
+			font-size: 14px;
+			margin: 20px 0;
+			padding: 10px;
+			text-align: left;
+        }
+	</style>
+</head>
+<body>
+    <font face="源瑛こぶり明朝">
+        <ul class="menu">
+            <li class="active" data-page="page1">PART1</li>
+            <li data-page="page2">PART2</li>
+            <li data-page="page3">PART3</li>
+            <li data-page="page4">PART4</li>
+            <li data-page="page5">PART5</li>
+            <li data-page="page6">PART6</li>
+            <li data-page="page7">PART7</li>
+            <li data-page="page8">PART8</li>
+            <li data-page="page9">PART9</li>
+            <li data-page="page10">PART10</li>
+
+        </ul>
+    
+        <div id="page1" class="page active">
+            <h1>part1</h1>
+           <h2> <p>ようこそ代数学演習のサイトのPART1のページへ</p>
+            <p>このページは代数学演習の問題1から問題10までの内容となっています</p>
+            <p>なおこの代数学演習のサイトは1から10までのPARTごとに10問ずつ数字順に</p>
+            <p>解説を提供しています</p>
+        </div>
+    
+        <div id="page2" class="page">
+            <h1>選択肢2のページ</h1>
+            <p>ここに選択肢2に関する内容を書きます。</p>
+        </div>
+    
+        <div id="page3" class="page">
+            <h1>選択肢3のページ</h1>
+            <p>ここに選択肢3に関する内容を書きます。</p>
+        </div>
+    
+        <script>
+            // 選択肢をクリックした時の処理
+            const menuItems = document.querySelectorAll('.menu li');
+            menuItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    // 選択された選択肢をアクティブにする
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+    
+                    // 選択されたページを表示する
+                    const pageId = item.getAttribute('data-page');
+                    const pages = document.querySelectorAll('.page');
+                    const pageId = item.getAttribute('data-page');
+const pages = document.querySelectorAll('.page');
+pages.forEach(page => {
+if (page.id === pageId) {
+page.classList.add('active');
+} else {
+page.classList.remove('active');
+}
+});
+});
+});
+// "Question 1"ボタンがクリックされたら、自動スクロールする
+document.getElementById("question1-button").addEventListener("click", function() {
+  // 目的の要素の座標を取得する
+  var question1Element = document.getElementById("question1");
+  var question1Position = question1Element.getBoundingClientRect().top + window.pageYOffset;
+
+  // スクロール位置を設定する
+  window.scrollTo({ top: question1Position, behavior: 'smooth' });
+});
+
+</script>
+	<div class="frame">
+		<h1>
+            代数学演習問題　PART1　　問題1から問題10
+		</h1>
+        <h1>
+            
+        </h1>
+        
+        
+        <div class="container">
+            <div class="menu2">
+                <h2><p>クリックで指定の問題を見る</p></h2>
+                <button id ="question1-button">問題1</button>   　　<button id ="question6-button">問題6</button>  <br>
+                <button id ="question2-button">問題2</button>   　　<button id ="question7-button">問題7</button>  <br>
+                <button id ="question3-button">問題3</button>   　　<button id ="question8-button">問題8</button>  <br>
+                <button id ="question4-button">問題4</button>   　　<button id ="question9-button">問題9</button>  <br>
+                <button id ="question5-button">問題5</button>   　　<button id ="question10-button">問題0</button>  <br>
+            </div>
+            <div class="page2">
+                <h2></h2>
+                <p>　　　この代数学演習では</p>
+                <p>　　　「問題」　「証明」　「補足、ひとこと」</p>
+                <p>　　　この順で提供しております</p>
+                <p>　　　例を示します</p>
+                <hr>
+                <p>　　問題A.  \(f\)を条件\(R\)とする 集合\(W\)に属する\(\alpha\),\(\beta\)について\(f(\alpha)\leq{f(\beta)}\)が成り立つとする</p>
+                <p>　　　(1) \(\alpha=\beta\)なら\(f(\alpha)=f(\beta)\)であることを示せ</p>
+                <p>　　　(2)\(\gamma\)について\(f(a)\leq{f(\gamma)}\)が成り立つことを示せ</p>
+                <hr>
+                <p>(1)</p>
+                <p>条件\(R\)から任意の\(x\in{X}\)に対して\(f(x)\)は命題\(B\)を満たすから</p>
+                <P>\(\alpha=\beta\)なら\(f(\alpha)=f(\beta)\)となる</P>
+                <hr>
+            <p>(2)</p>
+            <p>(1)より\(\gamma\)に対して命題\(U\)が成り立つ</p>
+            <p>よって、\(f(\alpha)\leq{f(\gamma)}\)ssが成り立つ<p>
+              <div class="note">
+                <h5>補足、ひとこと</h5>
+                このようになっています
+              </div>
+                こ、これで・・・完成だ―――――――――――！！！！！！！！！つかれたぁ・・・
+            </div>
+        </div>
+          
+            <p>
+
+            </p>
+
+		</h2>
+        
+		<h2>
+
+		</h2>
+		<p>
+</p>
+		<hr>
+		<div class ="note">
+			<p>
+
+			</p>
+		</div>
+        <h2>
+<div id="question1"><p>問題1.
+\(f:{X}\rightarrow{Y}\) 　 \(g:{Y}\rightarrow{Z}\) を写像とする</p></div>
+<p>(1) \(Im(g\circ f)\subset{Im{g}}\) を示しなさい</p>
+<p>(2) \(f\) が全射ならば \(Im(g\circ{f})=Img\) となることを
+    示しなさい</p>
+		</h2>
+		
+		<hr>
+        <p>解答
+
+        </p>
+        <P>(1)</p>
+            <p> \(\forall{z}\in{g\circ{f}}\) と仮定する。</P>
+        <p>まず仮定より、\(z=g\circ{f}(x)\) となる
+             \(x\in{X}\) が存在する。</p>
+            <p>また、\(g\circ{f}(x)=g(f(x))\) であるから
+            </p>
+<p>\(y=f(x)\) とすると　\(z=g(y)\) となる \(y\) が存在する
+    <p>よって、\(y\in{Img}\) となる</p>
+    <p>従って、\(Im(g\circ{f})\subset{Img}\)</p>
+    <p></p>	
+    <div class ="note">
+       <h5>補足、ひとこと</h5>
+			<p>他の方法でも解けますがこの方法が一番シンプルだと思います。
+            </p>
+
+			</p>
+		</div>
+		<hr>
+        <p>(2)</p>
+        <p>(1)より、\(Im{(g\circ{f})}\subset{Img}\) であるから</p>
+        <p>\(Im(g\circ{f})\supset{Img}\) が示せればいい</p>
+        <p>\(\forall{z}\in{Img}\) とすると、\(z=f(y)\)となる \(y\) が存在する</p>
+		<p>\(f\) は全射であるからそのような \(y\) に対して、\(y=f(x)\) となる \(x\) が存在する</p>
+        <p>よって、\(z=g\circ{f}(x)\) となる \(x\) が存在する</p>
+        <p>従って、\(Im(g\circ{f})\supset{Img}\) である</p>
+        <p>以上より \(Im(g\circ{f})=Img\)</p>
+        <div class ="note">
+            <h5>補足、ひとこと</h5>
+			<p>
+この方法で解く必要はありませんが(1)で \(Im(g\circ{f})\subset{Img}\) を示しているのでそれを利用するのが合理的かと思います。
+			</p>
+		</div>
+       
+		<hr>
+        <div id="question2"><h2>
+            <p>問題2. 集合\(X\)から\(Y\)への写像を \(f:X\rightarrow{Y}\) とする.</p>
+        <p>(1) \(f\) が単射であることの定義は全称命題である. これを日本語で説明しなさい.</p>
+        <p>(2) 
+            (1)で答えた全称命題の否定命題を日本語で答えなさい.</p>
+            </h2>
+        </div>
+        <hr>
+       <p>解答</p> 
+        
+            <p>(1)</p>
+            <p>任意の \(X\) の元 \(x_1,x_2\) に対して、 \(x_1\neq{x_2}\) なら \(f(x_1)\neq{f(x_2)}\) となる.</p>
+        
+		<div class ="note">
+            <h5>補足、ひとこと</h5>
+			<p>
+論理記号で書くと　\(\forall x_1,x_2\in{X} ,x_1\neq{x_2}\Rightarrow{f(x)\neq{f(x_2)}}\) ですね。
+			</p>
+		</div>
+       
+		
+		<hr>
+        
+            <p>(2)</p>
+            <p>
+            <p>ある \(X\) の元 \(x_1,x_2\) が存在して、\(x_1\neq{x_2}\) かつ \(f(x_1)\neq{f(x_2)}\) となる.</p>
+		<div class ="note">
+            <h5>補足、ひとこと</h5>
+			<p>
+                「任意の」を「ある」に変えて、「に対して」を「が存在して」に変え、「なら」を「かつ」に変えるという機械的な方法でも解けますが、ここではきちんと（１）の命題の意味を考えて答えましょう。</p>
+			    注意！（ただし、試験中は時間制限があるので機械的に解く方が合理的ではあります)</p>
+		</div>
+    
+        
+        <hr>
+	    <h2>
+            <div id="question3"><p>問題3</p></div>
+        <p>\(f:X\rightarrow{Y}\),　\(g:Y\rightarrow{Z}\)をそれぞれ写像とする.</p>
+        <p>\(f\) と \(g\) が全射なら \(f\circ{g}\) は全射であることを示しなさい</p>
+        <p></p>
+            </h2>
+        <hr>
+        <p>解答</p>
+       <p>\(g\) が全射より、任意の \(z\in{Z}\) に対してある \(y\in{Y}\)が存在して</p>
+       <p>\(z=g(y)\) となります。</p>
+       <p>また、\(f\) が全射より、任意の \(y\in{Y}\) に対してある \(x\in{X}\) が存在して</p>
+       <p>\(y=f(x)\) となります。</p>
+       <p>つまり、任意の \(z\in{Z}\) に対してある \(y\in{Y}\) が存在して、</p>
+       <p>\(z=g(y)\) となる \(y\) に対して、\(y=f(x)\) となる \(x\in{X}\) が存在するので</p>
+       <p>任意の \(z\in{Z}\) に対してある \(x\in{X}\) が存在して \(z=g(f(x))\) となります</p>
+       <p>そして、\(g\circ{f}(x)\) は \(g(f(x))\) であるから</p>
+       <p>\(g\circ{f}\) は全射です</p>
+        
+            <p></p>
+            <p></p>
+        
+		<div class ="note">
+            <h5>補足、ひとこと</h5>
+			<p>「\(f\) が全射で \(g\) が全射なら、\(f\circ{g}\) は全射」という主張は写像の図をイメージすると感覚的には当たり前だと思いそうですが、その感覚ではこの問題は解けません。
+なぜなら、イメージで描く写像の図というのはどうしても要素が高々有限個の集合になるからで、無限集合については考えていないからです。
+			</p>
+		</div>
+       
+		
+        <hr>
+        <div id="question4">
+	    <h2>
+            <p>問題4</p>
+            <p>\(f:X\rightarrow{Y}\) , \(g:{Y}\rightarrow{Z}\) を写像とする</p>
+        <p>\(f\)と\(g\)が単射なら\(f\circ{g}\)は単射であることを示しなさい.</p>
+        <p></p>
+            </h2></div>
+        <hr>
+        <p>解答</p>
+       <p>\(g\) が単射より、任意の \(y_1,y_2\in{Y}\) に対して, \(y_1\neq{y_2\\}\) ならば \(g(y_1)\neq{g(y_2)}\)</p>
+      <p>ここで、任意の \(x\in{X}\) に対して,  \(f(x)\in{Y}\) であるから上記より</p>
+       <p>任意の \(x_1,x_2\in{X}\) に対して \(f(x_1)\neq{f(x_2)}\) ならば \(g(f(x_1))\neq{g(f(x_2))}\)</p>
+       <p>また, \(f\) が単射より任意の \(x_1,x_2\) に対して \(x_1\neq{x_2}\)ならば \(f(x_1)\neq{f(x_2})\) </p>
+       <p>上記と合わせると</p>
+       <p>任意の \(x_1,x_2\) に対して\(x_1\neq{x_2}\) ならば\(g(f(x_1))\neq{g(f(x_2)})\)</p> 
+        <P>そして, \(g\circ{f}(x)\)は\(g(f(x))\) であるから</P>
+            <p>\(f\) と \(g\) が単射なら \(f\circ{g}\) は単射である</p>
+            <p></p>
+        
+		<div class ="note">
+            <h5>補足、ひとこと</h5>
+			<p>「\(f\) は単射だから \(f\) に
+                2つの違う値を入力すると2つの違う値が出力される
+                その2つの出力された値を \(g\) に入力すると \(g\) も単射だから
+                2つの違う値が出力される
+                だから、 \(g\circ{f}\) に違う2つの値を入力すると違う2つの値が出力されるから
+                \(g\circ{f}\) は単射」
+                というのを形式的に言うとこうなります
+
+                
+
+			</p>
+		</div>
+        <hr>
+        <div id="question5">
+	    <h2>
+            <p>問題5</p>
+        <p>\(f:X\rightarrow{Y}\) , \(g:Y\rightarrow{Z}\) を写像とする.</p>
+        <p>\(g\circ{f}\) が単射なら \(f\) が単射であることを示しなさい.</p>
+            </h2></div>
+        <hr>
+       <p>解答</p>
+       <p>\(g\circ{f}\) が単射で \(f\) が単射でないと仮定する</p> 
+        <p>\(g\circ{f}\) が単射より任意の \(x_1,x_2\in{X}\) に対して、</p>
+        <p>\(x_1\neq{x_2}\)なら \(g\circ{f}(x_1)\neq{g\circ{f}(x_2)}\) となる</p>
+           <p>また、\(f\) は単射でないからある \(x_1,x_2\in{X}\) が存在して、</p>
+           <p>\(x_1\neq{x_2}\) かつ \(f(x_1)={f(x_2)}\) となる</p>
+           <p>よって、ある \(x_1,x_2\in{X}\) が存在して、</p>
+           <p>\(f(x_1)=f(x_2)\) かつ \(g\circ{f}(x_1)\neq{g\circ{f}(x_2)}\) となる</p>
+            <p>ここで、\(g\circ{f}(x)\) を \(g(f(x))\) と定義で書き直すと</p>
+            <p>ある \(x_1,x_2\in{X}\) が存在して</p>
+            <p>\(f(x_1)=f(x_2)\) かつ \(g(f(x_1))\neq{g(f(x_2))}\)</p>
+            <p>これは \(g\) が写像であることに矛盾する</p>
+            <p>よって、\(g\circ{f}\) が単射で \(f\) が単射でないという仮定は偽である</p>
+            <p>従って、\(g\circ{f}\) が単射なら \(f\) は単射である</p>
+		<div class ="note">
+            <h5>補足、ひとこと</h5>
+			<p>
+このサイトで初めて背理法を使った証明が登場しました
+<p>\(g\circ{f}\) が単射で \(f\) が単射でないと仮定して \(g\) が写像でないという矛盾を導いていますが
+少しトリッキーな感じもしますね。ただ、今のところこの証明方法が一番早いと思うのでこの方法にしました。
+より早い方法があれば教えてください</p>
+<p>また、注意ですが　\(g\) が写像にならなくなってしまうから矛盾するのであって \(f(x_1)=f(x_2)\) かつ \(g(f(x_1))\neq{g(f(x_2))}\) だから矛盾なわけではありません</p>
+	<p>例えば、 \(g\) を \(\{1,2,3,4,5\}\)から\(\{1,2,3,4,5\}\) への対応とします	</p>
+<p>この時に \(g(5)\) に関して \(g(1+4)=1\),\(g(2+3)=3\) という風に定めてあれば</p>
+<p>\(1+4=2+3\) ですが、\(g(1+4)\neq{g(2+3)}\) となります</p>
+<p>つまり、gは写像に限らなければ、\(f(x_1)=f(x_2)\) かつ \(g(f(x_1))\neq{g(f(x_2))}\) が成立することもあるのです</p>
+<p>このことから写像の定義はwelldefindnessであることを感じられるでしょう。</p>
+		</div>
+        <hr>
+        <div id="question6">
+        <h2>
+<p>問題6
+　</p>
+<p> \(f:X\rightarrow{Y}\),　\(g:Y\rightarrow{Z}\)をそれぞれ写像とする.</p>
+<p> \(g\circ{f}\) が全射なら  \(g\) は全射であることを示しなさい</p>
+		</h2></div>
+        <hr>
+		
+        <p>
+            \(g\circ{f}\) が全射で \(g\) は全射でないと仮定する.
+        </p>
+        <P>\(g\) が全射でないから</P>
+        <p>ある \(z\in{Z}\) が存在して任意の \(y\in{Y}\) に対して</p>
+            <p>\(z\neq{g(y)}\) となる </P>
+                <p>よって、任意の\(y\)に対して\(y=f(x)\)となる\(x\)が存在するから</p>
+            <p>ある\(z\in{z}\)に対してある\(x\in{X}\)が存在して</p>
+            <p>\(z\neq{g(f(x))}\)となる</p>
+        <p>また、\(g\circ{f}\) は全射であるから</p>
+            <p>任意の \(z\in{Z}\) に対してある \(x\in{X}\) が存在して</p>
+            <p>\(z=g\circ{f}(x)\)、  つまり、\(z=g(f(x))\) となる</p>
+            <p>まとめると、ある\(z\in{Z}\)に対してある\(x\in{X}\)が存在して</p>
+            <p>\(z=g\circ{f}(x)\)かつ\(z\neq{g\circ{f(x)}}\)である</p>
+           <p>これは\(g\circ{f}\)が写像であることに矛盾する            </p>
+            <p>よって、\(g\circ{f}\)が全射で\(g\)は全射でないという仮定は偽であるから</p>
+            <p>\(g\circ{f}\)が全射なら\(g\)は全射である。</p>
+          <p></p> </p> </p>
+<p>
+    <p></p>
+    <p></p>
+    <p></p>	
+    
+    <div class ="note">
+       <h5>補足、ひとこと</h5>
+			<p>\(g\circ{f}\)は写像であるはずなのに写像とならなくなってしまうから矛盾なわけですが</p>
+            <p>ある\(z\in{Z}\)に対してある\(x\in{X}\)が存在して</p>
+            <p>\(z=g\circ{f}(x)\)かつ\(z\neq{g\circ{f(x)}}\)</p>
+            <p>という主張自体は</p>
+            <p>\(g\circ{f}\)
+            が写像でなくてもwelldefindnessでない定義になってしまう時点でおかしいですね。</p>
+            </p>
+
+			</p>
+		</div>
+		<hr>
+        <div id="question7">
+        <h2><p>問題7</p>
+ <p>\(f:X\rightarrow{Y}\)を全射とする
+ 　</p>
+ <p>このとき、任意の集合\(Z\)と、\(Z\)から\(X\)への任意の二つの写像</p>
+ <p>\(g_1:Y\rightarrow{Z}\),\(g_2:Y\rightarrow{Z}\)について,
+    </p>
+    <p>\(g_1\circ{f}=g_2\circ{f}\)ならば\(g_1=g_2\)であることを示しなさい</p>
+         </h2></div>
+        <hr> 
+         
+         <p>
+ \(f\)は全射より、任意の\(y\in{Y}\)に対してある\(x\in{X}\)が存在して
+         <p>
+         <P>\(y=f(x)\)となる</p>
+             <p>また、\(g_1\circ{f}=g_2\circ{f}\)より、</p>
+             <p>任意の\(x\in{X}\)に対して\(g_1\circ{f}(x)=g_2\circ{f}(x)\)
+             、すなわち\(g_1(f(x))=g_2(f(x))\)</p>
+ 
+     <p></p>
+     <p>従って、任意の\(Y\)の元\(y\)に対して\(g_1(y)=g_2(y)\)である</p>
+     <p>そして\(g_1\)と\(g_2\)の定義域と値域は等しいから</p>	
+     <p>\(g_1=g_2\)</p>
+     
+     
+     <div class ="note">
+        <h5>補足、ひとこと</h5>
+             <p>\(g_1=g_2\)となる条件は、\(g_1\)と\(g_2\)の定義域と値域が等しくて\(g_1(x)=g_2(x)\)となることです。
+
+             </p>
+             <p>\(g_1(x)=g_2(x)\)だけでは示したことにはならないことに注意しましょう</p>
+             </p>
+             <h5>さらに言うと</h5>
+             
+             <p>\(g_1(x)=g_2(x)\)だけで\(g_1\)と\(g_2\)を同一視したくなる気持ちはあると思いますが、</p>
+             <p>「同一視したくなる」というのは</p>
+             <p>「同じでないことを理解はしているけど同じものとみなしたい」</p>
+             <p>ということですので決して</p>
+                <p>
+            「完全に同じものである」と主張しているわけではないことに注意しましょう</p>
+         
+            </div>
+ <hr>
+ <div id="question8">
+ <h2>
+    <p>問題8
+    　</p>
+    <p>\(f:X\rightarrow{Y}\)を写像とする.このとき,任意の集合\(Z\)と\(Y\)から\(Z\)への任意の二つの写像 </p>
+    <p>\(g_1:Y\rightarrow{Z}\)と\(g_2:Y\rightarrow{Z}\)について、
+       </p>
+       <p>\(g_1\circ{f}=g_2\circ{f}\Rightarrow{g_1=g_2}\)</p>
+       <p>がなりたつならば\(f\)は全射であることを示しなさい</p>
+            </h2>
+            </div>
+            <hr>
+            <p>
+                \(f\)が全射でないときに、\(g_1\circ{f}=g_2\circ{f}\Rightarrow{g_1=g_2}\)が成り立たない場合がある
+            </p>
+            <P>\(X=\{1\}\),\(Y=\{1,2\}\),\(Z=\{1,2\}\)とする</P>
+            <p>また、\(f(1)=1\),\(g_1(1)=1\),\(g_1(2)=2\),\(g_2(2)=1\),\(g_2(2)=1\)とすると</p>
+                <p>\(g_1\circ{f}=g_2\circ{f}\)であるが\(g_1\neq{g_2}\)となる
+                </p>
+    <p>
+        <p></p>
+        <p></p>
+        <p></p>	
+        
+        
+        <div class ="note">
+           <h5>補足、ひとこと</h5>
+                <p>これは設問者の意図としては問題7の命題において、初めに述べられていた「\(f\)は全射である」</p>
+                <p>という仮定がなくても命題は真であるかを問うために作られた問題だと思います</p>
+    <p>(違う理由があるのかもしれませんが)</p>
+                </p>
+            </div>
+    <hr>
+    <h2>
+        <p>問題9
+        　</p>
+        <p> \(f:X\rightarrow{Y}\)を単射とする。</p>
+        <p>このとき、任意の集合\(Z\)と\(Z\)から\(X\)への任意の二つの写像</p>
+        <p>\(g_1:Z\rightarrow{X}\)と\(g_2:Z\rightarrow{X}\)について、
+           </p>
+           <p>\(f\circ{g_1}=f\circ{g_2}\)ならば\(g_1=g_2\)であることを示しなさい</p>
+                </h2>
+                <hr>
+                <p>解答</p>
+            <p>\(f\circ{g_1}=f\circ{g_2}\)  より任意の\(z_1\in{Z}\)に対して</p>
+            <p>\(f\circ{g}(z)=f\circ{g}(z)\)       
+               すなわち、\(f(g_1(z))=f(g_2(z))\)</p>
+                <P>ここで、\(f\)は単射より、任意の\(x_1,x_2\in{X}\)に対して
+                    </P>
+                    <p>\(f(x_1)=f(x_2)\)なら\(x_1=x_2\)である</p>
+                    <p> よって、\(g_1(z)\),\(g_2(z)\in{X}\)より、</P>
+                <p>任意の\(z\in{Z}\)に対して\(g_1(z)=g_2(z)\)である</p>
+                    <p>また、\(g_1,g_2\)の定義域と値域は一致しているから
+                    </p>
+        <p>\(g_1=g_2\)である
+            <p></p>
+            <p></p>
+            <p></p>	
+            <hr>
+            <div class ="note">
+               <h5>補足、ひとこと</h5>
+                    <p>さて、今までの問題の傾向から次の問題がどんな問題かが予想できますね
+                    </p>
+                    <p>この「代数学演習」の問題集は問題の配列が実に合理的です</p>
+        
+                    </p>
+                </div>
+        <hr>
+        <h2>
+            <p>問題10          　</p>
+            <p> \(f:X\rightarrow{Y}\)を写像とする。</p>
+            <p>このとき、任意の集合\(Z\)と\(Z\)から\(X\)への二つの写像</p>
+            <p>\(g_1:Z\rightarrow{X}\),\(g_2:Z\rightarrow{X}\)について
+               </p>
+               <p>\(f\circ{g_1}=f\circ{g_2}\Rightarrow{g_1=g_2}\)</p>
+             <p>が成り立つならば\(f\)は単射であることを示せ</p>  
+                    </h2>
+                    <hr>
+                    
+                    <p>
+  \(f\)が単射でないとき\(f\circ{g_1}=f\circ{g_2}\)かつ\(g_1\neq{g_2}\)となる場合がある
+                
+                    <P>例えば、\(X=\{1,2\}\),\(Y=\{1\}\),\(Z=\{1,2\}\)とし、</p>
+                        <p>\(f(1)=1\),\(f(2)=1\)\(g_1(1)=1\),\(g_1(2)=2\),\(g_2(1)=2\),\(g_2(2)=2\)とすると </P>
+                    <p>\(f\circ{g_1}=f\circ{g_2}\)ですが</p>
+                        <p>\(g_1\neq{g_2}\)となる
+                        </p>
+            <p>
+                <p></p>
+                <p></p>
+                <p></p>	
+                
+                
+                <div class ="note">
+                   <h5>補足、ひとこと</h5>
+                        <p>これも問題8と同じ要領で、具体例を提示することで証明できる問題です
+                        </p>
+            
+                        </p>
+                    </div>
+         
+        <hr>
+       <p></p>
+       <p</p> 
+        
+            <p></p>
+            <p></p>
+        
+		<div class ="note">
+            <h5>補足、ひとこと</h5>
+			<p>
+
+			</p>
+		</div>
+        <hr>
+	    <h2>
+            <p></p>
+        <p></p>
+        <p></p>
+            </h2>
+        <hr>
+       <p></p>
+       <p</p> 
+        
+            <p></p>
+            <p></p>
+        
+		<div class ="note">
+            <h5>補足、ひとこと</h5>
+			<p>
+
+			</p>
+		</div>
+        <hr>
+	    <h2>
+            <p></p>
+        <p></p>
+        <p></p>
+            </h2>
+        <hr>
+       <p></p>
+       <p</p> 
+        
+            <p></p>
+            <p></p>
+        
+		<div class ="note">
+            <h5>補足、ひとこと</h5>
+			<p>
+
+			</p>
+		</div>
+        <hr>
+	    <h2>
+            <p></p>
+        <p></p>
+        <p></p>
+            </h2>
+        <hr>
+       <p></p>
+       <p</p> 
+        
+            <p></p>
+            <p></p>
+        
+		<div class ="note">
+            <h5>補足、ひとこと</h5>
+			<p>
+
+			</p>
+		</div>
+        <hr>
+	    <h2>
+            <p></p>
+        <p></p>
+        <p></p>
+            </h2>
+        <hr>
+       <p></p>
+       <p</p> 
+        
+            <p></p>
+            <p></p>
+        
+		<div class ="note">
+            <h5>補足、ひとこと</h5>
+			<p>
+
+			</p>
+		</div>
+        <hr>
+	    <h2>
+            <p></p>
+        <p></p>
+        <p></p>
+            </h2>
+        <hr>
+       <p></p>
+       <p</p> 
+        
+            <p></p>
+            <p></p>
+        
+		<div class ="note">
+            <h5>補足、ひとこと</h5>
+			<p>
+
+			</p>
+		</div>
+        <hr>
+	    <h2>
+            <p></p>
+        <p></p>
+        <p></p>
+            </h2>
+        <hr>
+       <p></p>
+       <p</p> 
+        
+            <p></p>
+            <p></p>
+        
+		<div class ="note">
+            <h5>補足、ひとこと</h5>
+			<p>
+
+			</p>
+		</div>
+        <script>// "Question 1"ボタンがクリックされたら、自動スクロールする
+            document.getElementById("question1-button").addEventListener("click", function() {
+              // 目的の要素の座標を取得する
+              var question1Element = document.getElementById("question1");
+              var question1Position = question1Element.getBoundingClientRect().top + window.pageYOffset;
+            
+              // スクロール位置を設定する
+              window.scrollTo({ top: question1Position, behavior: 'smooth' });
+            });
+            // "Question 2"ボタンがクリックされたら、自動スクロールする
+            document.getElementById("question2-button").addEventListener("click", function() {
+              // 目的の要素の座標を取得する
+              var question1Element = document.getElementById("question2");
+              var question1Position = question1Element.getBoundingClientRect().top + window.pageYOffset;
+            
+              // スクロール位置を設定する
+              window.scrollTo({ top: question1Position, behavior: 'smooth' });
+            });
+             // "Question 3"ボタンがクリックされたら、自動スクロールする
+             document.getElementById("question3-button").addEventListener("click", function() {
+              // 目的の要素の座標を取得する
+              var question1Element = document.getElementById("question3");
+              var question1Position = question1Element.getBoundingClientRect().top + window.pageYOffset;
+            
+              // スクロール位置を設定する
+              window.scrollTo({ top: question1Position, behavior: 'smooth' });
+            });
+             // "Question 4"ボタンがクリックされたら、自動スクロールする
+             document.getElementById("question4-button").addEventListener("click", function() {
+              // 目的の要素の座標を取得する
+              var question1Element = document.getElementById("question4");
+              var question1Position = question1Element.getBoundingClientRect().top + window.pageYOffset;
+            
+              // スクロール位置を設定する
+              window.scrollTo({ top: question1Position, behavior: 'smooth' });
+            });
+             // "Question 5"ボタンがクリックされたら、自動スクロールする
+             document.getElementById("question5-button").addEventListener("click", function() {
+              // 目的の要素の座標を取得する
+              var question1Element = document.getElementById("question5");
+              var question1Position = question1Element.getBoundingClientRect().top + window.pageYOffset;
+            
+              // スクロール位置を設定する
+              window.scrollTo({ top: question1Position, behavior: 'smooth' });
+            });
+             // "Question 6"ボタンがクリックされたら、自動スクロールする
+             document.getElementById("question6-button").addEventListener("click", function() {
+              // 目的の要素の座標を取得する
+              var question1Element = document.getElementById("question6");
+              var question1Position = question1Element.getBoundingClientRect().top + window.pageYOffset;
+            
+              // スクロール位置を設定する
+              window.scrollTo({ top: question1Position, behavior: 'smooth' });
+            });
+             // "Question 7"ボタンがクリックされたら、自動スクロールする
+             document.getElementById("question7-button").addEventListener("click", function() {
+              // 目的の要素の座標を取得する
+              var question1Element = document.getElementById("question7");
+              var question1Position = question1Element.getBoundingClientRect().top + window.pageYOffset;
+            
+              // スクロール位置を設定する
+              window.scrollTo({ top: question1Position, behavior: 'smooth' });
+            });
+             // "Question 8"ボタンがクリックされたら、自動スクロールする
+             document.getElementById("question8-button").addEventListener("click", function() {
+              // 目的の要素の座標を取得する
+              var question1Element = document.getElementById("question8");
+              var question1Position = question1Element.getBoundingClientRect().top + window.pageYOffset;
+            
+              // スクロール位置を設定する
+              window.scrollTo({ top: question1Position, behavior: 'smooth' });
+            });
+             // "Question 2"ボタンがクリックされたら、自動スクロールする
+             document.getElementById("question2-button").addEventListener("click", function() {
+              // 目的の要素の座標を取得する
+              var question1Element = document.getElementById("question2");
+              var question1Position = question1Element.getBoundingClientRect().top + window.pageYOffset;
+            
+              // スクロール位置を設定する
+              window.scrollTo({ top: question1Position, behavior: 'smooth' });
+            });
+             // "Question 2"ボタンがクリックされたら、自動スクロールする
+             document.getElementById("question2-button").addEventListener("click", function() {
+              // 目的の要素の座標を取得する
+              var question1Element = document.getElementById("question2");
+              var question1Position = question1Element.getBoundingClientRect().top + window.pageYOffset;
+            
+              // スクロール位置を設定する
+              window.scrollTo({ top: question1Position, behavior: 'smooth' });
+            });
+             // "Question 2"ボタンがクリックされたら、自動スクロールする
+             document.getElementById("question2-button").addEventListener("click", function() {
+              // 目的の要素の座標を取得する
+              var question1Element = document.getElementById("question2");
+              var question1Position = question1Element.getBoundingClientRect().top + window.pageYOffset;
+            
+              // スクロール位置を設定する
+              window.scrollTo({ top: question1Position, behavior: 'smooth' });
+            });
+             // "Question 2"ボタンがクリックされたら、自動スクロールする
+             document.getElementById("question2-button").addEventListener("click", function() {
+              // 目的の要素の座標を取得する
+              var question1Element = document.getElementById("question2");
+              var question1Position = question1Element.getBoundingClientRect().top + window.pageYOffset;
+            
+              // スクロール位置を設定する
+              window.scrollTo({ top: question1Position, behavior: 'smooth' });
+            });
+             // "Question 2"ボタンがクリックされたら、自動スクロールする
+             document.getElementById("question2-button").addEventListener("click", function() {
+              // 目的の要素の座標を取得する
+              var question1Element = document.getElementById("question2");
+              var question1Position = question1Element.getBoundingClientRect().top + window.pageYOffset;
+            
+              // スクロール位置を設定する
+              window.scrollTo({ top: question1Position, behavior: 'smooth' });
+            });
+             // "Question 2"ボタンがクリックされたら、自動スクロールする
+             document.getElementById("question2-button").addEventListener("click", function() {
+              // 目的の要素の座標を取得する
+              var question1Element = document.getElementById("question2");
+              var question1Position = question1Element.getBoundingClientRect().top + window.pageYOffset;
+            
+              // スクロール位置を設定する
+              window.scrollTo({ top: question1Position, behavior: 'smooth' });
+            });
+            </script>
